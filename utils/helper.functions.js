@@ -11,7 +11,7 @@ const generateOTP = () => {
 
 const twilio = async (otp, phone) => {
   try {
-    await twilio.messages
+    await twilioClient.messages
       .create({
         body: otp,
         to: `+91${phone}`,
