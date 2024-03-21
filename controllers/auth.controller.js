@@ -1,7 +1,8 @@
-const sharedFunctions = require("../utils/helper.functions");
-const UserModel = require("../models/user.model");
-const OtpModel = require('../models/otp.model') 
 
+const UserModel = require("../models/user.model");
+const OtpModel = require('../models/otp.model'); 
+const sharedFunctions = require("../utils/helper.functions");
+const jwtModule = require('../utils/helper.jwt');
 
 const sendOtp = async (req, res) => {
   const { phoneNumber } = req.body;
@@ -53,8 +54,11 @@ const verifyOtp = async (req, res) => {
       if (userOtp.updatedAt < currentDate) {
         return res.status(401).json({ message:  ' OTP expired' });
       }
-  
-      res.status(200).json({ message: 'OTP verified successfully' });
+      const accessToken = await jwtModule.tokenGenerator(userOtp.userId);
+      const refreshToken = await jwtModule.refreshTokenGenerator(userOtp.userId);
+
+      res.status(200).json({accessToken: accessToken, refreshToken: refreshToken, message: 'OTP verified successfully' });
+      
       await OtpModel.deleteOne({phone: phoneNumber});
 
     } catch (err) {
