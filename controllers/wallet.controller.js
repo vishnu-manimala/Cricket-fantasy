@@ -31,7 +31,25 @@ const getBalance =  async(req,res) => {
       return res.status(500).json({message:"Something went wrong"});
     }
 }
+
+const addCash = async(req,res) =>{
+    const userId = req.userId;
+
+    try{
+        if (!userId) return res.status(400).json({ message: "User  is missing" });
+        const amount = req.body.amount;
+        if (!amount) return res.status(400).json({ message: "Amount  is missing" });
+        const wallet = await WalletModel.findOneAndUpdate({userId:userId}, {
+          $inc: { balance: amount } 
+        }, { new: true });
+        if (!amount) return res.status(400).json({ message: "Wallet not found" });
+        return res.status(200).json({ balance: wallet.balance, message:'Cash added' });
+    }catch(err){
+        return res.status(500).json({message:"Something went wrong"});
+    }
+}
 module.exports = {
     getWalletData,
-    getBalance
+    getBalance,
+    addCash
 }
