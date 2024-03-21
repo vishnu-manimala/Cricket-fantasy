@@ -5,7 +5,8 @@ const sharedFunctions = require("../utils/helper.functions");
 const jwtModule = require('../utils/helper.jwt');
 
 const sendOtp = async (req, res) => {
-  const { phoneNumber } = req.body;
+  const  phoneNumber  = req.body.phone;
+ 
   try {
     if (!phoneNumber) {
       return res.status(400).json({ message: "Missing phone number" });
@@ -33,7 +34,8 @@ const sendOtp = async (req, res) => {
 };
 
 const verifyOtp = async (req, res) => {
-    const { phoneNumber, otp } = req.body;
+    const phoneNumber = req.body.phone;
+    const otp = req.body.otp;
   
     try {
   

@@ -18,7 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 const authRoutes = require('./routes/auth.route');
 const userRoutes = require('./routes/user.route');
 
-app.use('/', authRoutes);
+app.use('/auth', authRoutes);
 app.use('/user', userRoutes);
 
 const server = app.listen(port, () => {
