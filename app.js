@@ -17,9 +17,11 @@ app.use(express.urlencoded({ extended: true }));
 
 const authRoutes = require('./routes/auth.route');
 const userRoutes = require('./routes/user.route');
+const walletRoutes = require('./routes/wallet.route');
 
 app.use('/auth', authRoutes);
 app.use('/user', userRoutes);
+app.use('/wallet', walletRoutes);
 
 const server = app.listen(port, () => {
     console.log(`server running at http://localhost:${port}`);
