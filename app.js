@@ -2,6 +2,9 @@ const express = require('express');
 const app = express();
 const nodemailer = require('nodemailer');
 const otplib = require('otplib');
+const http = require('http').createServer(app);
+const socketio = require('socket.io')(http);
+const { initializeNotificationModule } = require('./utils/notification.module');
 
 require("dotenv").config();
 const port = process.env.PORT;
@@ -27,3 +30,11 @@ app.use('/team', teamRoutes)
 const server = app.listen(port, () => {
     console.log(`server running at http://localhost:${port}`);
   });
+
+  const io = require("socket.io")(server, {
+    cors: {
+      origin:'*',
+    },
+  });
+
+  initializeNotificationModule(io);
